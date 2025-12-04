@@ -56,4 +56,11 @@
             </x-primary-button>
         </div>
     </form>
+    @section('AppScript')
+        <script>
+            var data = {
+
+            }
+        </script>
+    @endsection
 </x-guest-layout>
