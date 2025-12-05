@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
     <v-container fluid class="fill-height">
@@ -15,7 +15,7 @@
                             <v-row class="mt-5 mb-5">
                                 <!-- Email Address -->
                                 <v-col cols="12">
-                                    <x-text-input label="{{ __('Email') }}" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                                    <x-text-input label="{{ __('Email') }}" type="email" name="email" required autofocus autocomplete="username" />
                                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                 </v-col>
 
@@ -108,4 +108,4 @@
             }
         </script>
     @endsection
-</x-app-layout>
+</x-guest-layout>

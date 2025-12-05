@@ -1,30 +1,75 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <style>
+        *{
+            font-family: figtree;
+        }
+    </style>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+    <!-- Vuetify CSS -->
+    <link href="{{ asset('build/assets/css/vuetify.min.css') }}" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+    <!-- Scripts -->
+    {{--        @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
+</head>
+<body>
+<div id="app">
+    <v-app>
+        <v-main>
+            {{ $slot }}
+        </v-main>
+    </v-app>
+</div>
+<!-- Vue 3 -->
+<script src="{{ asset('build/assets/js/vue.global.js') }}"></script>
+<!-- Vuetify JS -->
+<script src="{{ asset('build/assets/js/vuetify.min.js') }}"></script>
+<!-- App Script -->
+@yield('AppScript')
+<script>
+    const { createApp } = Vue
+    const { createVuetify } = Vuetify
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
-            </div>
-        </div>
-    </body>
+    const vuetify = createVuetify({
+        theme: {
+            defaultTheme: 'dark',
+            themes: {
+                light: {
+                    colors: {
+                        primary: '#4A6CF7',   // Taskora Blue
+                        secondary: '#1E293B',
+                        accent: '#FACC15',
+                        success: '#22C55E',
+                        error: '#EF4444',
+                        background: '#F8FAFC',
+                        surface: '#FFFFFF',
+                    }
+                },
+                dark: {
+                    colors: {
+                        primary: '#4A6CF7',
+                        secondary: '#CBD5E1',
+                        accent: '#FACC15',
+                        background: '#0F172A',
+                        surface: '#1E293B',
+                    }
+                }
+            }
+        }
+    })
+
+    createApp(data).use(vuetify).mount('#app')
+</script>
+</body>
 </html>

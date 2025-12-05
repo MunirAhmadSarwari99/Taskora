@@ -26,44 +26,81 @@
     <body>
     <div id="app">
         <v-app>
-            <v-main style="background: #F2F2F2;">
+            <!-- ================= SIDEBAR ================= -->
+            <v-navigation-drawer color="background" elevation="4" permanent width="260">
+                <v-container>
+                    <h2 class="text-white mb-6">
+                        <x-application-logo/>
+                    </h2>
+
+                    <v-list nav>
+
+                        <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard"></v-list-item>
+                        <v-list-item prepend-icon="mdi-calendar" title="Calendar"></v-list-item>
+                        <v-list-item prepend-icon="mdi-account-group" title="Projects"></v-list-item>
+                        <v-list-item prepend-icon="mdi-cog" title="Settings"></v-list-item>
+
+                    </v-list>
+                </v-container>
+            </v-navigation-drawer>
+            <v-app-bar color="background">
+                <v-app-bar-title>
+                    Dashboard
+                </v-app-bar-title>
+
+                <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-dropdown-link icon :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                        <v-icon>mdi-power</v-icon>
+                    </x-dropdown-link>
+                </form>
+            </v-app-bar>
+            <v-main>
                 {{ $slot }}
             </v-main>
         </v-app>
     </div>
-
     <!-- Vue 3 -->
     <script src="{{ asset('build/assets/js/vue.global.js') }}"></script>
     <!-- Vuetify JS -->
     <script src="{{ asset('build/assets/js/vuetify.min.js') }}"></script>
-    @yield('AppScript')
     <!-- App Script -->
+    @yield('AppScript')
     <script>
         const { createApp } = Vue
         const { createVuetify } = Vuetify
 
-        const vuetify = createVuetify()
+        const vuetify = createVuetify({
+            theme: {
+                defaultTheme: 'dark',
+                themes: {
+                    light: {
+                        colors: {
+                            primary: '#4A6CF7',   // Taskora Blue
+                            secondary: '#1E293B',
+                            accent: '#FACC15',
+                            success: '#22C55E',
+                            error: '#EF4444',
+                            background: '#F8FAFC',
+                            surface: '#FFFFFF',
+                        }
+                    },
+                    dark: {
+                        colors: {
+                            primary: '#4A6CF7',
+                            secondary: '#CBD5E1',
+                            accent: '#FACC15',
+                            background: '#0F172A',
+                            surface: '#1E293B',
+                        }
+                    }
+                }
+            }
+        })
 
         createApp(data).use(vuetify).mount('#app')
     </script>
     </body>
-{{--    <body class="font-sans antialiased">--}}
-{{--        <div class="min-h-screen bg-gray-100">--}}
-{{--            @include('layouts.navigation')--}}
-
-{{--            <!-- Page Heading -->--}}
-{{--            @isset($header)--}}
-{{--                <header class="bg-white shadow">--}}
-{{--                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">--}}
-{{--                        {{ $header }}--}}
-{{--                    </div>--}}
-{{--                </header>--}}
-{{--            @endisset--}}
-
-{{--            <!-- Page Content -->--}}
-{{--            <main>--}}
-{{--                {{ $slot }}--}}
-{{--            </main>--}}
-{{--        </div>--}}
-{{--    </body>--}}
 </html>
