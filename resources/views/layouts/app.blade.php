@@ -27,38 +27,18 @@
     <div id="app">
         <v-app>
             <!-- ================= SIDEBAR ================= -->
-            <v-navigation-drawer color="background" elevation="4" permanent width="260">
-                <v-container>
-                    <h2 class="text-white mb-6">
-                        <x-application-logo/>
-                    </h2>
-
-                    <v-list nav>
-
-                        <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard"></v-list-item>
-                        <v-list-item prepend-icon="mdi-calendar" title="Calendar"></v-list-item>
-                        <v-list-item prepend-icon="mdi-account-group" title="Projects"></v-list-item>
-                        <v-list-item prepend-icon="mdi-cog" title="Settings"></v-list-item>
-
-                    </v-list>
-                </v-container>
-            </v-navigation-drawer>
+            @include('layouts.navigation')
             <v-app-bar color="background">
                 <v-app-bar-title>
                     Dashboard
                 </v-app-bar-title>
 
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
 
-                    <x-dropdown-link icon :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                        <v-icon>mdi-power</v-icon>
-                    </x-dropdown-link>
-                </form>
             </v-app-bar>
             <v-main>
-                {{ $slot }}
+                <v-container>
+                    {{ $slot }}
+                </v-container>
             </v-main>
         </v-app>
     </div>

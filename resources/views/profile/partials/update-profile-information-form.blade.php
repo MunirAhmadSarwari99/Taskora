@@ -1,15 +1,4 @@
-<section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
-        </p>
-    </header>
-
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+ <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
 
@@ -17,6 +6,16 @@
         @csrf
         @method('patch')
 
+        <v-row>
+            <v-col cols="12" md="6">
+                <v-avatar color="surface-variant" size="80">
+                    <v-img src="{{ asset('build/assets/images/' . Auth::user()->avatar) }}" alt="John"></v-img>
+                </v-avatar>
+            </v-col>
+            <v-col cols="12">
+                {{ $user->name }}
+            </v-col>
+        </v-row>
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
@@ -61,4 +60,3 @@
             @endif
         </div>
     </form>
-</section>
