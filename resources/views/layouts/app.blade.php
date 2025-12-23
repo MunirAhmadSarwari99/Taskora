@@ -29,6 +29,7 @@
             <!-- ================= SIDEBAR ================= -->
             @include('layouts.navigation')
             <v-app-bar color="background">
+                <v-app-bar-nav-icon variant="text"  @click="drawer = !drawer"></v-app-bar-nav-icon>
                 <v-app-bar-title>
                     Dashboard
                 </v-app-bar-title>
@@ -46,8 +47,12 @@
     <script src="{{ asset('build/assets/js/vue.global.js') }}"></script>
     <!-- Vuetify JS -->
     <script src="{{ asset('build/assets/js/vuetify.min.js') }}"></script>
+    <script src="{{ asset('build/assets/js/axios.min.js') }}"></script>
+{{--    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>--}}
+
     <!-- App Script -->
     @yield('AppScript')
+
     <script>
         const { createApp } = Vue
         const { createVuetify } = Vuetify
@@ -71,6 +76,7 @@
                         colors: {
                             primary: '#4A6CF7',
                             secondary: '#CBD5E1',
+                            error: '#EF4444',
                             accent: '#FACC15',
                             background: '#0F172A',
                             surface: '#1E293B',

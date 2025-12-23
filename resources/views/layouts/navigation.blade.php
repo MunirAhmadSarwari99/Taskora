@@ -1,4 +1,4 @@
-<v-navigation-drawer color="background" elevation="4" permanent width="260">
+<v-navigation-drawer v-model="drawer" color="background" elevation="4" width="260" :location="$vuetify.display.mobile ? 'bottom' : undefined" permanent>
     <v-container>
         <h2 class="text-white mb-6">
             <x-application-logo/>
@@ -26,7 +26,6 @@
         </div>
     </template>
 </v-navigation-drawer>
-
 
 {{--<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">--}}
 {{--    <!-- Primary Navigation Menu -->--}}

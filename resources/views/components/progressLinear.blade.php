@@ -1,12 +1,10 @@
 @props([
 'DialogWidth',
 'CardTitleIcon' => '',
-'CardTitle',
-'CardSubtitle',
-'CardText'
+'CardTitle'
 ])
 
-<v-dialog v-model="dialog" width="{{ $DialogWidth }}" persistent scrollable>
+<v-dialog v-model="loading" width="{{ $DialogWidth }}" persistent scrollable>
     <v-card>
         <v-card-title>
             @if(isset($CardTitleIcon) && $CardTitleIcon != '')
@@ -15,6 +13,8 @@
             {{ $CardTitle }}
         </v-card-title>
         <v-divider></v-divider>
-        {{ $slot }}
+        <v-card-text>
+            <v-progress-linear indeterminate color="primary" />
+        </v-card-text>
     </v-card>
 </v-dialog>
