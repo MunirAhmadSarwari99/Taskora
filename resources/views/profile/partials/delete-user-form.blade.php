@@ -33,6 +33,7 @@
                     <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
 
                     <x-text-input
+                        error-messages=""
                         id="password"
                         name="password"
                         type="password"

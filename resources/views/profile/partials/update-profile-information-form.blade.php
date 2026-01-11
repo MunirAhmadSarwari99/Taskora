@@ -9,21 +9,15 @@
             <v-row>
                 <v-col cols="12" md="6">
                     <x-input-label for="name" :value="__('First Name')" />
-                    <x-text-input  v-model="user.name" id="name" name="name" type="text" required autofocus autocomplete="name" />
-                    <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                    <x-text-input  v-model="user.name" error-messages="errors.name" id="name" name="name" type="text" required autofocus autocomplete="name" />
                 </v-col>
                 <v-col cols="12" md="6">
                     <x-input-label for="lastName" :value="__('Last Name')" />
-                    <x-text-input  v-model="user.lastName" id="lastName" name="lastName" type="text" required autofocus autocomplete="lastName" />
-{{--                    <v-alert type="error" v-if="errors.lastName[0]" class="text-capitalize mb-2">--}}
-{{--                        @{{ errors.lastName[0] }}--}}
-{{--                    </v-alert>--}}
-{{--                    <x-input-error class="mt-2" :messages="$errors->get('lastName')" />--}}
+                    <x-text-input  v-model="user.lastName" error-messages="errors.lastName" id="lastName" name="lastName" type="text" required autofocus autocomplete="lastName" />
                 </v-col>
                 <v-col cols="12">
                     <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input v-model="user.email" id="email" name="email" type="email" class="mt-1 block w-full" required autocomplete="username" />
-                    <x-input-error class="mt-2" :messages="$errors->get('email')" />
+                    <x-text-input v-model="user.email" error-messages="errors.email" id="email" name="email" type="email" class="mt-1 block w-full" required autocomplete="username" />
 
                     @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                         <div>
@@ -47,10 +41,6 @@
                     <x-primary-button type="button" @click="updateProfile" class="float-end" prepend-icon="mdi-content-save" color="primary">
                         {{ __('Save') }}
                     </x-primary-button>
-
-                    @if (session('status') === 'profile-updated')
-                        <x-snackbar color="success"></x-snackbar>
-                    @endif
                 </v-col>
             </v-row>
         </v-col>

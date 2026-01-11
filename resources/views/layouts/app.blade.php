@@ -48,7 +48,6 @@
     <!-- Vuetify JS -->
     <script src="{{ asset('build/assets/js/vuetify.min.js') }}"></script>
     <script src="{{ asset('build/assets/js/axios.min.js') }}"></script>
-{{--    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>--}}
 
     <!-- App Script -->
     @yield('AppScript')

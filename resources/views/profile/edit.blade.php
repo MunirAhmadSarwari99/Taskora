@@ -21,7 +21,7 @@
         </v-row>
     </v-card>
     <x-progressLinear DialogWidth="600" CardTitleIcon="mdi-reload-alert" CardTitle="Please wait…"></x-progressLinear>
-
+    <x-snackbar></x-snackbar>
     @section('AppScript')
         <script>
             var data = {
@@ -30,9 +30,20 @@
                         drawer: true,
                         dialog: false,
                         loading: false,
+                        snackbar: false,
                         errors: {},
-                        user: @json($user)
+                        user: @json($user),
+                        changeUserPassword: {}
                     };
+                },
+                computed: {
+                    capitalizedErrors() {
+                        return this.errors.name
+                            ? this.errors.name.map(
+                                e => e.charAt(0).toUpperCase() + e.slice(1)
+                            )
+                            : [];
+                    }
                 },
                 methods: {
                     updateProfile() {
@@ -48,13 +59,37 @@
                         })
                             .then(response => {
                                 if (response.data.status){
-                                    setTimeout(() => (this.loading = false), 2000)
+                                    setTimeout(() => (this.loading = false), 2000);
+                                    setTimeout(() => (this.snackbar = true), 2000);
                                 }
                             })
                             .catch(error => {
-                                // console.error(error.response.data);
+                                this.loading = false;
                                 this.errors = error.response.data.errors;
-                                console.log(this.errors.lastName[0]);
+                            });
+                    },
+                    updatePassword() {
+                        this.loading = true;
+
+                        axios.put("{{ route('password.update') }}",  this.changeUserPassword, {
+                            headers: {
+                                "X-CSRF-TOKEN": document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                                "Accept": "application/json"
+                            }
+                        })
+                            .then(response => {
+                                if (response.data.status){
+                                    this.changeUserPassword = {};
+                                    setTimeout(() => (this.loading = false), 2000);
+                                    setTimeout(() => (this.snackbar = true), 2000);
+                                }
+                            })
+                            .catch(error => {
+                                this.loading = false;
+                                this.errors = error.response.data.errors;
+                                console.log(error.response.data.errors);
                             });
                     }
                 }
