@@ -33,7 +33,10 @@
                         snackbar: false,
                         errors: {},
                         user: @json($user),
-                        changeUserPassword: {}
+                        changeUserPassword: {},
+                        file: null,
+                        preview : 'build/assets/images/' + @json($user->avatar),
+                        previewStatus: false,
                     };
                 },
                 computed: {
@@ -79,9 +82,68 @@
                                 "Accept": "application/json"
                             }
                         })
+                        .then(response => {
+                            if (response.data.status){
+                                this.changeUserPassword = {};
+                                setTimeout(() => (this.loading = false), 2000);
+                                setTimeout(() => (this.snackbar = true), 2000);
+                            }
+                        })
+                        .catch(error => {
+                            this.loading = false;
+                            this.errors = error.response.data.errors;
+                        });
+                    },
+                    openFilePicker(){
+                        document.getElementById('fileInput').click();
+                    },
+                    onFileChange(event){
+                        this.loading = true;
+                        const selectedFile = event.target.files[0];
+                        if (!selectedFile) return;
+
+                       this.file = selectedFile;
+                       this.preview = URL.createObjectURL(selectedFile);
+
+                        const formData = new FormData()
+                        formData.append('avatar', this.file);
+
+                        axios.post("{{ route('profile.uploadImage') }}",  formData, {
+                            headers: {
+                                "X-CSRF-TOKEN": document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                                "Accept": "application/json",
+                                'Content-Type': 'multipart/form-data',
+                            }
+                        })
+                        .then(response => {
+                            if (response.data.status){
+                                this.previewStatus = response.data.status;
+                                setTimeout(() => (this.loading = false), 2000);
+                                setTimeout(() => (this.snackbar = true), 2000);
+                            }
+                        })
+                        .catch(error => {
+                            this.loading = false;
+                            this.errors = error.response.data.errors;
+                        });
+                    },
+                    removePicker(){
+                        this.loading = true;
+                        this.preview = 'build/assets/images/default.png';
+
+                        axios.post("{{ route('profile.removePicker') }}", {
+                            headers: {
+                                "X-CSRF-TOKEN": document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                                "Accept": "application/json",
+                            }
+                        })
                             .then(response => {
                                 if (response.data.status){
-                                    this.changeUserPassword = {};
+                                    this.previewStatus = false;
                                     setTimeout(() => (this.loading = false), 2000);
                                     setTimeout(() => (this.snackbar = true), 2000);
                                 }
@@ -89,9 +151,9 @@
                             .catch(error => {
                                 this.loading = false;
                                 this.errors = error.response.data.errors;
-                                console.log(error.response.data.errors);
                             });
-                    }
+                    },
+
                 }
 
             }

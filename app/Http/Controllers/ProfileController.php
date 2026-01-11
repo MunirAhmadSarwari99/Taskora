@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\UserAvatarRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +49,66 @@ class ProfileController extends Controller
         }
 
 //        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Update the user's profile Image.
+     * @param UserAvatarRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function uploadImage(UserAvatarRequest $request)
+    {
+        $user = User::find(Auth::user()->id);
+
+        $imageName = $user->avatar;
+        if ($request->file('avatar') != null){
+
+            if ($user->avatar != 'default.png'){
+                unlink(public_path('build/assets/images/' . $user->avatar));
+            }
+            $imageName = time() . $request->file('avatar')->getClientOriginalName();
+            $request->avatar->move('build/assets/images/', $imageName);
+        }
+
+        $user->avatar = $imageName;
+
+        if ($user->save()){
+            return response()->json([
+                'status' => true
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => false
+            ]);
+        }
+    }
+
+    /**
+     * Update the user's profile Image.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removePicker(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+
+        if ($user->avatar != 'default.png'){
+            unlink(public_path('build/assets/images/' . $user->avatar));
+        }
+
+        $user->avatar = 'default.png';
+
+        if ($user->save()){
+            return response()->json([
+                'status' => true
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => false
+            ]);
+        }
     }
 
     /**

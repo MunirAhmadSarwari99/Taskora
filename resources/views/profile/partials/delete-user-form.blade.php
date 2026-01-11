@@ -33,11 +33,9 @@
                     <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
 
                     <x-text-input
-                        error-messages=""
                         id="password"
                         name="password"
                         type="password"
-                        class="mt-1 block w-3/4"
                         placeholder="{{ __('Password') }}"
                     />
 

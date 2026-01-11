@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -36,6 +37,9 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::post('/uploadImage', [ProfileController::class, 'uploadImage'])->name('profile.uploadImage');
+    Route::post('/removePicker', [ProfileController::class, 'removePicker'])->name('profile.removePicker');
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
